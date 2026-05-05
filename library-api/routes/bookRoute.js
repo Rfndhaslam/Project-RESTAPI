@@ -8,6 +8,7 @@ router.get('/genre/:genre', bookController.getBooksByGenre); // ← filter by ge
 router.get('/:id', bookController.getBookById);
 router.post('/', bookController.createBook);
 router.put('/:id', bookController.updateBook);
+router.patch('/:id', bookController.partialUpdateBook); // ← partial update
 router.delete('/:id', bookController.deleteBook);
 
 module.exports = router;

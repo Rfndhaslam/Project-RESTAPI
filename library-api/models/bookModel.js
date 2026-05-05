@@ -14,6 +14,20 @@ const createBook = (body) => db.query('INSERT INTO books (title, author, genre, 
 
 const updateBook = (body, id) => db.query('UPDATE books SET title = ?, author = ?, genre = ?, year = ?, stock = ? WHERE id = ?', [body.title, body.author, body.genre, body.year, body.stock, id]);
 
+const partialUpdateBook = (body, id) => {
+  const fields = [];
+  const values = [];
+
+  for (const [key, value] of Object.entries(body)) {
+    fields.push(`${key} = ?`);
+    values.push(value);
+  }
+
+  values.push(id);
+
+  return db.query(`UPDATE books SET ${fields.join(', ')} WHERE id = ?`, values);
+};
+
 const deleteBook = (id) => db.query('DELETE FROM books WHERE id = ?', [id]);
 
-module.exports = { getAllBooks, getBookById, getBooksByGenre, searchBooks, createBook, updateBook, deleteBook };
+module.exports = { getAllBooks, getBookById, getBooksByGenre, searchBooks, createBook, updateBook, partialUpdateBook, deleteBook };

@@ -123,6 +123,23 @@ const updateBook = async (req, res) => {
   }
 };
 
+const partialUpdateBook = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  try {
+    await BookModel.partialUpdateBook(body, id);
+    res.json({
+      message: 'PARTIAL UPDATE book success',
+      data: { id, ...body },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Server Error',
+      serverMessage: error,
+    });
+  }
+};
+
 const deleteBook = async (req, res) => {
   const { id } = req.params;
   try {
@@ -139,4 +156,4 @@ const deleteBook = async (req, res) => {
   }
 };
 
-module.exports = { getAllBooks, getBookById, getBooksByGenre, searchBooks, createBook, updateBook, deleteBook };
+module.exports = { getAllBooks, getBookById, getBooksByGenre, searchBooks, createBook, updateBook, partialUpdateBook, deleteBook };
